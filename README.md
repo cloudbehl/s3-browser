@@ -18,3 +18,8 @@ A web-based S3-compatible object storage browser built with:
 - Generate presigned URLs for temporary object access
 - Clean and responsive UI with Bootstrap
 
+## RUN
+
+```
+wget -O - https://raw.githubusercontent.com/cloudbehl/s3-browser/refs/heads/main/run-s3-browser.sh | bash
+```
