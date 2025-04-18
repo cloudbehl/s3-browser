@@ -1,0 +1,77 @@
+<div class="container my-5">
+  <h1 class="mb-4">S3 Browser</h1>
+
+  <!-- Connection Section -->
+  <div class="card mb-4" *ngIf="!connected">
+    <div class="card-body">
+      <h5 class="card-title">Connect to S3</h5>
+      <form (submit)="connect(); $event.preventDefault()">
+        <div class="mb-3">
+          <label for="accessKey" class="form-label">Access Key</label>
+          <input type="text" class="form-control" id="accessKey" [(ngModel)]="accessKey" name="accessKey">
+        </div>
+        <div class="mb-3">
+          <label for="secretKey" class="form-label">Secret Key</label>
+          <input type="password" class="form-control" id="secretKey" [(ngModel)]="secretKey" name="secretKey">
+        </div>
+        <div class="mb-3">
+          <label for="endpoint" class="form-label">Endpoint</label>
+          <input type="text" class="form-control" id="endpoint" [(ngModel)]="endpoint" name="endpoint">
+        </div>
+        <button class="btn btn-primary" type="submit">Connect</button>
+      </form>
+    </div>
+  </div>
+
+  <div *ngIf="connected">
+    <!-- Bucket Section -->
+    <div class="row mb-4">
+      <div class="col-md-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title">Buckets</h5>
+            <form (submit)="createBucket()">
+              <div class="input-group mb-3">
+                <input [(ngModel)]="newBucket" name="newBucket" class="form-control" placeholder="New bucket name">
+                <button class="btn btn-success" type="submit">Create</button>
+              </div>
+            </form>
+            <ul class="list-group">
+              <li *ngFor="let bucket of buckets" class="list-group-item d-flex justify-content-between align-items-center">
+                <span (click)="selectBucket(bucket)" style="cursor:pointer">{{ bucket }}</span>
+                <button class="btn btn-sm btn-outline-danger" (click)="deleteBucket(bucket)">Delete</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Object Section -->
+      <div class="col-md-8" *ngIf="selectedBucket">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title">Objects in <strong>{{ selectedBucket }}</strong></h5>
+
+            <input type="file" class="form-control mb-3" (change)="uploadFile($event)">
+
+            <ul class="list-group">
+              <li *ngFor="let obj of objects" class="list-group-item d-flex justify-content-between align-items-center">
+                {{ obj }}
+                <div>
+                  <button class="btn btn-sm btn-outline-primary me-1" (click)="downloadFile(obj)">Download</button>
+                  <button class="btn btn-sm btn-outline-secondary me-1" (click)="getPresignedUrl(obj)">Presigned URL</button>
+                  <button class="btn btn-sm btn-outline-danger" (click)="deleteObject(obj)">Delete</button>
+                </div>
+              </li>
+            </ul>
+
+            <div *ngIf="presignedUrl" class="alert alert-info mt-3">
+              <strong>Presigned URL:</strong><br>
+              <a [href]="presignedUrl" target="_blank">{{ presignedUrl }}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

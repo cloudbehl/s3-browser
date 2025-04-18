@@ -1,0 +1,12 @@
+.credentials {
+    margin-bottom: 20px;
+  }
+  .credentials input {
+    display: block;
+    margin-bottom: 10px;
+    padding: 6px;
+    width: 300px;
+  }
+  .credentials button {
+    padding: 8px 12px;
+  }
